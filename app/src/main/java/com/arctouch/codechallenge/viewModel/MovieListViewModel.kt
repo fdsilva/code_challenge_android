@@ -27,7 +27,7 @@ class MovieListViewModel: ViewModel() {
                 .setPageSize(pageSize)
                 .setInitialLoadSizeHint(pageSize * 2)
                 .setPrefetchDistance(10)
-                .setEnablePlaceholders(false)
+                .setEnablePlaceholders(true)
                 .build()
 
         movieList = RxPagedListBuilder(upcomingDataSourceFactory, conf)

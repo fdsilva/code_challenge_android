@@ -31,8 +31,8 @@ class HomeAdapter: PagedListAdapter<Movie, HomeAdapter.ViewHolder>(movieDiffUtil
 
         fun bind(movie: Movie) {
             itemView.titleTextView.text = movie.title
-            itemView.genresTextView.text = movie.genres?.joinToString(separator = ", ") { it.name }
-            itemView.releaseDateTextView.text = movie.
+            //itemView.genresTextView.text = movie.genres?.joinToString(separator = ", ") { it.name }
+            itemView.releaseDateTextView.text = movie.releaseDate
 
             Glide.with(itemView)
                 .load(movie.posterPath?.let { movieImageUrlBuilder.buildPosterUrl(it) })

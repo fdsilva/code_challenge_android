@@ -7,9 +7,9 @@ import io.reactivex.disposables.CompositeDisposable
 
 
 class UpcomingDataSourceFactory(private val compisiteDisposable: CompositeDisposable,
-                                private val tmdbAPI: TmdbApi): DataSource.Factory<Long, Movie>(){
+                                private val tmdbAPI: TmdbApi): DataSource.Factory<Int, Movie>(){
 
-    override fun create(): DataSource<Long, Movie> {
+    override fun create(): DataSource<Int, Movie> {
         return UpcomingDataSource(tmdbAPI, compisiteDisposable)
     }
 }
