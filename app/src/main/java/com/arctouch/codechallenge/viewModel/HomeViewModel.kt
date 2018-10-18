@@ -12,13 +12,13 @@ import com.arctouch.codechallenge.model.Movie
 import com.arctouch.codechallenge.util.API_KEY
 import com.arctouch.codechallenge.util.DEFAULT_LANGUAGE
 import io.reactivex.Observable
+import io.reactivex.Observer
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
 
 class HomeViewModel: ViewModel() {
-//    var genres: Observable<List<GenreResponse>>
-
     var movieList: Observable<PagedList<Movie>>
 
     private val compositeDisposable = CompositeDisposable()
@@ -40,18 +40,6 @@ class HomeViewModel: ViewModel() {
         movieList = RxPagedListBuilder(upcomingDataSourceFactory, conf)
                 .setFetchScheduler(Schedulers.io())
                 .buildObservable()
-    }
-
-    private fun loadGenres() {
-        TmdbApi.getService().genres(API_KEY, DEFAULT_LANGUAGE)
-                .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.io())
-                .subscribe ({
-                    Cache.cacheGenres(it.genres)
-                    Log.d("the genres", "${it.genres}")
-                }, { error ->
-                    Log.d("the genres ZEBA", "${error.message}")
-                })
     }
 
     override fun onCleared() {

@@ -3,11 +3,14 @@ package com.arctouch.codechallenge.view.home
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.os.Parcelable
+import android.provider.MediaStore
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.View
 import com.arctouch.codechallenge.R
+import com.arctouch.codechallenge.data.Cache
+import com.arctouch.codechallenge.model.Genre
 import com.arctouch.codechallenge.viewModel.HomeViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.home_activity.*
@@ -24,6 +27,7 @@ class HomeActivity : AppCompatActivity() {
         setContentView(R.layout.home_activity)
 
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
+
         adapter = HomeAdapter()
 
         val linearLayoutManager = LinearLayoutManager(this)
@@ -43,7 +47,8 @@ class HomeActivity : AppCompatActivity() {
                         recyclerView.layoutManager?.onRestoreInstanceState(recyclerState)
                         recyclerState = null
                     }
-                }, { e ->
+                },
+                        { e ->
                     Log.e("ArchTouch", "Error", e)
                 })
     }

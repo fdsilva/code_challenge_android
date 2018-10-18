@@ -7,11 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.arctouch.codechallenge.R
+import com.arctouch.codechallenge.data.Cache
 import com.arctouch.codechallenge.model.Movie
 import com.arctouch.codechallenge.util.MovieImageUrlBuilder
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlinx.android.synthetic.main.movie_item.view.*
+
 
 class HomeAdapter: PagedListAdapter<Movie, HomeAdapter.ViewHolder>(movieDiffUtil) {
 
@@ -21,7 +23,8 @@ class HomeAdapter: PagedListAdapter<Movie, HomeAdapter.ViewHolder>(movieDiffUtil
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val movie = getItem(position)
+        var movie = getItem(position)
+        movie!!.genres = Cache.genres.filter { movie!!.genreIds?.contains(it.id) == true }
         holder.bind(movie!!)
     }
 
