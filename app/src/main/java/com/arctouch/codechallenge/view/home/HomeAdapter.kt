@@ -12,10 +12,20 @@ import com.arctouch.codechallenge.model.Movie
 import com.arctouch.codechallenge.util.MovieImageUrlBuilder
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import io.reactivex.Observable
+import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.movie_item.view.*
 
-
+/**
+ * The Home adapter was changed to handle a pagedList
+ * */
 class HomeAdapter: PagedListAdapter<Movie, HomeAdapter.ViewHolder>(movieDiffUtil) {
+
+    /** A Subscriber for the movie selection*/
+    private val clickMovieSubject = PublishSubject.create<Movie>()
+
+    /** A Click Event for the movie selection*/
+    val clickEvent: Observable<Movie> = clickMovieSubject
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.movie_item, parent, false)
@@ -27,9 +37,15 @@ class HomeAdapter: PagedListAdapter<Movie, HomeAdapter.ViewHolder>(movieDiffUtil
         holder.bind(movie!!)
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         private val movieImageUrlBuilder = MovieImageUrlBuilder()
+
+        init {
+            itemView.setOnClickListener{
+                getItem(layoutPosition)?.let { it1 -> clickMovieSubject.onNext(it1) }
+            }
+        }
 
         fun bind(movie: Movie) {
             movie!!.genres = Cache.genres.filter { movie!!.genreIds?.contains(it.id) == true }

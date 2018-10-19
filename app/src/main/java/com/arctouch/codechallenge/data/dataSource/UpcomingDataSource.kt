@@ -14,32 +14,33 @@ import io.reactivex.schedulers.Schedulers
 
 class UpcomingDataSource(private val tmdbApi: TmdbApi,
                          private val compositeDisposable: CompositeDisposable):
-
+/**
+ * Datasource class to provide data to pagedLiad
+ * */
 PageKeyedDataSource<Int, Movie>() {
     override fun loadInitial(params: LoadInitialParams<Int>, callback: LoadInitialCallback<Int, Movie>) {
-        val numberOfItems = params.requestedLoadSize
-        createObservable(1, 2, numberOfItems, callback, null)
+        createObservable(1, 2, callback, null)
     }
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
         val page = params.key
-        val numberOfItems = params.requestedLoadSize
-        createObservable(page, page + 1, numberOfItems, null, callback)
+        createObservable(page, page + 1,  null, callback)
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
         val page = params.key
-        val numberOfItems = params.requestedLoadSize
-        createObservable(page, page - 1, numberOfItems, null, callback)
+        createObservable(page, page - 1, null, callback)
     }
 
+    /**
+     * Creates a Observable to handle the result from de API response
+     * */
     private fun createObservable(requestedPage: Int,
                                  adjacentPage: Int,
-                                 requestedLoadSize: Int,
                                  initialCallback: LoadInitialCallback<Int, Movie>?,
                                  callback: LoadCallback<Int, Movie>?) {
-        compositeDisposable.add(
-                tmdbApi.upcomingMovies(API_KEY, DEFAULT_LANGUAGE, requestedPage.toLong(), DEFAULT_REGION)
+        compositeDisposable.add(tmdbApi.upcomingMovies(API_KEY, DEFAULT_LANGUAGE,
+                requestedPage.toLong(), DEFAULT_REGION)
                         .subscribe(
                                 { response ->
                                     Log.d("CodeChallenge", "Loading page: $requestedPage")

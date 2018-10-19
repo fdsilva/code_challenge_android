@@ -16,6 +16,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
+/**
+ * The home view model is responsible to handle datasource requests
+ * notify the view when data is fetched and cache the genres list
+ * which was previously created in the room splash Screen
+ * */
 class HomeViewModel: ViewModel() {
     var movieList: Observable<PagedList<Movie>>
 
@@ -27,7 +32,6 @@ class HomeViewModel: ViewModel() {
 
 
     init {
-
         upcomingDataSourceFactory = UpcomingDataSourceFactory(compositeDisposable, TmdbApi.getService())
 
         val conf = PagedList.Config.Builder()

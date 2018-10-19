@@ -5,7 +5,9 @@ import com.arctouch.codechallenge.api.TmdbApi
 import com.arctouch.codechallenge.model.Movie
 import io.reactivex.disposables.CompositeDisposable
 
-
+/**
+ * The DataSource Factory to allow pagedList to be created
+ * */
 class UpcomingDataSourceFactory(private val compisiteDisposable: CompositeDisposable,
                                 private val tmdbAPI: TmdbApi): DataSource.Factory<Int, Movie>(){
 
