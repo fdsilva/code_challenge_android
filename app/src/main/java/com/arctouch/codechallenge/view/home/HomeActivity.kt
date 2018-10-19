@@ -24,10 +24,11 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setTheme(R.style.AppTheme)
         setContentView(R.layout.home_activity)
 
         viewModel = ViewModelProviders.of(this).get(HomeViewModel::class.java)
-
+        viewModel.getGenres()
         adapter = HomeAdapter()
 
         val linearLayoutManager = LinearLayoutManager(this)

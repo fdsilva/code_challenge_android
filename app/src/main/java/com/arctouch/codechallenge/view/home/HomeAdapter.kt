@@ -24,7 +24,6 @@ class HomeAdapter: PagedListAdapter<Movie, HomeAdapter.ViewHolder>(movieDiffUtil
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var movie = getItem(position)
-        movie!!.genres = Cache.genres.filter { movie!!.genreIds?.contains(it.id) == true }
         holder.bind(movie!!)
     }
 
@@ -33,6 +32,7 @@ class HomeAdapter: PagedListAdapter<Movie, HomeAdapter.ViewHolder>(movieDiffUtil
         private val movieImageUrlBuilder = MovieImageUrlBuilder()
 
         fun bind(movie: Movie) {
+            movie!!.genres = Cache.genres.filter { movie!!.genreIds?.contains(it.id) == true }
             itemView.titleTextView.text = movie.title
             itemView.genresTextView.text = movie.genres?.joinToString(separator = ", ") { it.name }
             itemView.releaseDateTextView.text = movie.releaseDate
